@@ -1,4 +1,4 @@
-import { EditableTextComponent } from './editable-text/editable-text.component';
+import { TextComponent } from './editable-text/text.component';
 import { MessageBottomBarComponent } from './message-bottom-bar/message-bottom-bar.component';
 import { MenuButtonComponent } from '../header/menu-button/menu-button.component';
 import { MessageSubstrateComponent } from './message-substrate/message-substrate.component';
@@ -7,7 +7,7 @@ import { MessageSubstarateModes, MessageSubstarateStyles } from './message-subst
 import { MessageSubstarateMode, MessageSubstarateStyle } from './message-substrate/types';
 
 export {
-    EditableTextComponent,
+    TextComponent,
     MenuButtonComponent,
     MessageBottomBarComponent,
     MessageSubstrateComponent,

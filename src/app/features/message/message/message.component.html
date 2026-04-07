@@ -19,12 +19,12 @@
         @if (d?.['image']) {
         <div class="complex-message">
             <img [src]="d?.['image']" />
-            <x-editable-text class="text" [themeType]="tType" [text]="d.data.text" [time]="mTime"
+            <x-text class="text" [themeType]="tType" [text]="d.data.text" [time]="mTime"
                 [searchPattern]="searchedWords" [selectable]="c.selected" [classes]="class"
                 substringClass="search-substring" presetName="message" />
         </div>
         } @else {
-        <x-editable-text class="text" [themeType]="tType" [text]="d.data.text" [time]="mTime"
+        <x-text class="text" [themeType]="tType" [text]="d.data.text" [time]="mTime"
             [searchPattern]="searchedWords" [selectable]="c.selected" [classes]="class"
             substringClass="search-substring" presetName="message" />
         }

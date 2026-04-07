@@ -158,7 +158,7 @@ const format = (src: string, time: string | undefined, selectable: boolean, mail
             if (image) {
                 const index = withoutWhiteSpaceAndLineBreak.indexOf(url);
                 result = result.replace(url, `${SERVICE_COMPILED_URL}${i}`);
-                compiledURLs.push([i, (`<span><img${SERVICE_WHITESPACE}src="${image}"${SERVICE_WHITESPACE}class="message-editor-image"${SERVICE_WHITESPACE}width="100%"${SERVICE_WHITESPACE}style="pointer-events:none;display:block;max-height:250px;object-fit:cover;margin:2px${SERVICE_WHITESPACE}auto;border-radius:6px;"/></span>`), true, index, url.length]);
+                compiledURLs.push([i, (`<span><img${SERVICE_WHITESPACE}src="${image}"${SERVICE_WHITESPACE}class="message-editor-image"${SERVICE_WHITESPACE}width="100%"${SERVICE_WHITESPACE}style="display:block;max-height:250px;object-fit:cover;margin:2px${SERVICE_WHITESPACE}auto;border-radius:6px;"/></span>`), true, index, url.length]);
             } else {
                 const index = withoutWhiteSpaceAndLineBreak.indexOf(url);
                 result = result.replace(url, `${SERVICE_COMPILED_URL}${i}`);

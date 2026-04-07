@@ -6,7 +6,7 @@ import {
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { distinctUntilChanged, filter, switchMap, tap } from 'rxjs';
 import {
-  MessageSubstrateComponent, EditableTextComponent,
+  MessageSubstrateComponent, TextComponent,
   MessageSubstarateStyle, MessageSubstarateStyles,
 } from '@entities/message';
 import { IDisplayObjectConfig, IDisplayObjectMeasures, ISize, IVirtualListItem, NgVirtualListPublicService } from 'ng-virtual-list';
@@ -37,7 +37,7 @@ const DEFAULT_STROKE_ANIMATION_DURATION = 1000,
  */
 @Component({
   selector: 'x-message',
-  imports: [CommonModule, EditableTextComponent, MessageSubstrateComponent,],
+  imports: [CommonModule, TextComponent, MessageSubstrateComponent,],
   templateUrl: './message.component.html',
   styleUrl: './message.component.scss',
   host: {

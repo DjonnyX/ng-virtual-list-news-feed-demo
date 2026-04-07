@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditableTextComponent } from './editable-text.component';
+import { EditableTextComponent } from './text.component';
 
 describe('EditableTextComponent', () => {
   let component: EditableTextComponent;

@@ -1,6 +1,5 @@
 import { Component, computed, DestroyRef, effect, ElementRef, inject, input, OnDestroy, output, Signal, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, filter, fromEvent, map, of, switchMap, tap } from 'rxjs';
 import { SearchHighlightDirective } from '@shared/directives';
@@ -35,12 +34,12 @@ const DEFAULT_SEARCH_SUBSTRING_CLASS = 'search-substring',
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
 @Component({
-  selector: 'x-editable-text',
-  imports: [CommonModule, SearchHighlightDirective, LocaleSensitiveDirective, CdkTextareaAutosize],
-  templateUrl: './editable-text.component.html',
-  styleUrl: './editable-text.component.scss',
+  selector: 'x-text',
+  imports: [CommonModule, SearchHighlightDirective, LocaleSensitiveDirective],
+  templateUrl: './text.component.html',
+  styleUrl: './text.component.scss',
 })
-export class EditableTextComponent implements OnDestroy {
+export class TextComponent implements OnDestroy {
   readonlyText = viewChild<ElementRef<HTMLSpanElement>>('readonlyText');
 
   editor = viewChild<ElementRef<HTMLDivElement>>('editor');
@@ -180,7 +179,7 @@ export class EditableTextComponent implements OnDestroy {
     this.theme = toSignal(this._themeService.$theme);
 
     this.readonlyStyles = computed(() => {
-      const selectable = this.selectable(), val = selectable ? AUTO : NONE;
+      const val = NONE;
       return { [USER_SELECT]: val, [WEBKIT_USER_SELECT]: val, [MOZ_USER_SELECT]: val };
     });
 
