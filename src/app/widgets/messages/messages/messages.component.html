@@ -12,19 +12,20 @@
 
     @if (!loading && prepared) {
         <div class="overlay">
-            <x-message-scroll-to-end-button localeSensitive class="scroll-to-end" [ngClass]="{show: showScrollToBottom()}"
-                (onClick)="onScrollToEndClickHandler()">
-            </x-message-scroll-to-end-button>
+            <x-message-scroll-to-start-button localeSensitive class="scroll-to-end" [ngClass]="{show: showScrollToStart()}"
+                (onClick)="onScrollToStartClickHandler()">
+            </x-message-scroll-to-start-button>
         </div>
     }
 
     <ng-virtual-list #list class="list" [ngClass]="listClass()" [items]="items" [itemRenderer]="itemRenderer"
-        [snapScrollToStart]="false" [itemSize]="38" [bufferSize]="2" [maxBufferSize]="2" collectionMode="lazy"
+        [snapScrollToEnd]="false" [itemSize]="38" [bufferSize]="5" [maxBufferSize]="5" collectionMode="lazy"
         [itemConfigMap]="itemsConfigMap" [snap]="true" [defaultItemValue]="defaultItemValue()"
         [scrollStartOffset]="scrollStartOffset()" [scrollEndOffset]="scrollEndOffset()" [snapToEndTransitionInstantOffset]="1"
         methodForSelecting="multi-select" [selectedIds]="selectedItemIds" [scrollbarThumbRenderer]="customScrollBarThumb"
-        [scrollbarThumbParams]="scrollbarTheme()" [selectByClick]="false" (onSelect)="onSelectItemHandler($event)"
-        (onScrollReachStart)="onScrollReachStartHandler()" [loading]="isLazyLoading()" [animationParams]="animationParams"
+        [scrollbarThumbParams]="scrollbarTheme()" [selectByClick]="false" [scrollingSettings]="scrollingSettings"
+        [loading]="isLazyLoading()" [animationParams]="animationParams"
+         (onSelect)="onSelectItemHandler($event)" (onScrollReachEnd)="onScrollReachEndHandler()"
         (onScroll)="onScrollHandler($event)" (onScrollEnd)="onScrollHandler($event)">
     </ng-virtual-list>
 

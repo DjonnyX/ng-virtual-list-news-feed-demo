@@ -10,7 +10,7 @@ import { MessageBoxComponent } from '@features/message';
 import { NgVirtualListComponent } from '@shared/components';
 import {
   NgVirtualListModule, FocusAlignments, IAnimationParams, Id, IDisplayObjectConfig, IScrollEvent, IVirtualListItem,
-  IVirtualListItemConfigMap, NgVirtualListPublicService,
+  IVirtualListItemConfigMap, NgVirtualListPublicService, IScrollingSettings,
 } from 'ng-virtual-list';
 import { IMessageItemData } from "@shared/models/message";
 import { MessageTypes } from '@shared/enums';
@@ -25,12 +25,12 @@ import { validateCollection } from './utils/validate-collection';
 import { MessageService } from '../message.service';
 import { IProxyCollectionItem, ProxyCollection, ProxyCollectionEvents } from './utils/proxy-collection';
 import { createGroups } from './utils/create-groups';
-import { MessageScrollToEndButtonComponent } from '@entities/message/message-scroll-to-end-button/message-scroll-to-end-button.component';
 import { CustomScrollBarTheme } from '@shared/components/custom-scrollbar/interfaces/custom-scrollbar-theme';
 import { CustomScrollbarModule } from '@shared/components/custom-scrollbar/custom-scrollbar.module';
+import { MessageScrollToStartButtonComponent } from '@entities/message/message-scroll-to-start-button/message-scroll-to-start-button.component';
 
 const SCROLLBAR_PRESET = 'x-scrollbar-secondary',
-  CHUNK_SIZE = 200;
+  CHUNK_SIZE = 400;
 
 /**
  * @author Evgenii Alexandrovich Grebennikov
@@ -41,7 +41,7 @@ const SCROLLBAR_PRESET = 'x-scrollbar-secondary',
   selector: 'x-messages',
   imports: [
     CommonModule, MessageBoxComponent, MessageGroupComponent, NgVirtualListModule,
-    MessagesLoadingIndicatorComponent, MessageScrollToEndButtonComponent,
+    MessagesLoadingIndicatorComponent, MessageScrollToStartButtonComponent,
     StaticClickDirective, LocaleSensitiveDirective, CustomScrollbarModule,
   ],
   standalone: true,
@@ -52,6 +52,15 @@ export class MessagesComponent implements OnDestroy {
   protected _wrapper = viewChild<ElementRef<HTMLDivElement>>('wrapper');
 
   protected _list = viewChild('list', { read: NgVirtualListComponent });
+
+  scrollingSettings: IScrollingSettings = {
+    frictionalForce: 0.035,
+    mass: 0.005,
+    maxDistance: 100000,
+    maxDuration: 4000,
+    speedScale: 10,
+    optimization: false,
+  }
 
   search = input<string>();
 
@@ -103,8 +112,8 @@ export class MessagesComponent implements OnDestroy {
   private _$scroll = new Subject<IScrollEvent>();
   protected $scroll = this._$scroll.asObservable();
 
-  private _$scrollReachStart = new Subject<void>();
-  protected $scrollReachStart = this._$scrollReachStart.asObservable();
+  private _$scrollReachEnd = new Subject<void>();
+  protected $scrollReachEnd = this._$scrollReachEnd.asObservable();
 
   private _messagesService = inject(MessagesService);
 
@@ -114,7 +123,7 @@ export class MessagesComponent implements OnDestroy {
 
   listClass: Signal<{ [className: string]: boolean }>;
 
-  showScrollToBottom = signal<boolean>(false);
+  showScrollToStart = signal<boolean>(false);
 
   private _chunkNumber = 1;
 
@@ -193,7 +202,7 @@ export class MessagesComponent implements OnDestroy {
     const $collection = toObservable(this.collection),
       $search = toObservable(this.search),
       $scroll = this.$scroll,
-      $scrollReachStart = this.$scrollReachStart,
+      $scrollReachEnd = this.$scrollReachEnd,
       $chatId = this._messageService.$chatId,
       $proxyCollectionChange = this.$proxyCollectionChange,
       $virtualList = toObservable(this._list).pipe(
@@ -309,7 +318,7 @@ export class MessagesComponent implements OnDestroy {
           takeUntilDestroyed(this._destroyRef),
           filter(e => !!e),
           tap(e => {
-            this.showScrollToBottom.set(!e.isEnd);
+            this.showScrollToStart.set(!e.isStart);
           }),
         );
       }),
@@ -319,7 +328,7 @@ export class MessagesComponent implements OnDestroy {
       takeUntilDestroyed(),
       filter(v => v !== null),
       switchMap(chatId => {
-        return $scrollReachStart.pipe(
+        return $scrollReachEnd.pipe(
           takeUntilDestroyed(this._destroyRef),
           filter(() => !this.isLoading()),
           switchMap(() => {
@@ -407,8 +416,8 @@ export class MessagesComponent implements OnDestroy {
     this._$change.next({ item, api, config, value });
   }
 
-  onScrollReachStartHandler() {
-    this._$scrollReachStart.next(undefined);
+  onScrollReachEndHandler() {
+    this._$scrollReachEnd.next(undefined);
   }
 
   onSelectItemHandler(ids: Array<Id> | Id | null) {
@@ -423,10 +432,10 @@ export class MessagesComponent implements OnDestroy {
     this._$scroll.next(e);
   }
 
-  onScrollToEndClickHandler() {
+  onScrollToStartClickHandler() {
     const list = this._list();
     if (list) {
-      list.scrollToEnd();
+      list.scrollToStart();
     }
   }
 

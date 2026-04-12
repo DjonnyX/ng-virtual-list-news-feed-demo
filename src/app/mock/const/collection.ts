@@ -75,7 +75,7 @@ const generateMessageCollection = (number: number, size: number) => {
       version: 0,
       mailed: true,
       type,
-      dateTime: COLLECTION_PARAMS.maxDate - COLLECTION_PARAMS.index * 2000000, text: `${id % 4 === 0 ? testLinksText() : id % 3 === 0 ? testFormattedText() : testFormattedText1()}`,
+      dateTime: COLLECTION_PARAMS.maxDate + COLLECTION_PARAMS.index * 2000000, text: `${id}. ${id % 4 === 0 ? testLinksText() : id % 3 === 0 ? testFormattedText() : testFormattedText1()}`,
       image: undefined,
       incomType,
     });

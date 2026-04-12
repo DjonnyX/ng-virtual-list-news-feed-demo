@@ -15,12 +15,12 @@ const DEFAULT_STROKE_COLOR: GradientColor = ['rgba(255,255,255,0)', 'rgb(255, 25
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
 @Component({
-  selector: 'x-message-scroll-to-end-button',
+  selector: 'x-message-scroll-to-start-button',
   imports: [CommonModule, ButtonComponent],
-  templateUrl: './message-scroll-to-end-button.component.html',
-  styleUrl: './message-scroll-to-end-button.component.scss'
+  templateUrl: './message-scroll-to-start-button.component.html',
+  styleUrl: './message-scroll-to-start-button.component.scss'
 })
-export class MessageScrollToEndButtonComponent {
+export class MessageScrollToStartButtonComponent {
   content = viewChild<ElementRef<HTMLDivElement>>('content');
 
   onClick = output<Event>();
