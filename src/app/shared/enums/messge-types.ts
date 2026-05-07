@@ -3,5 +3,5 @@
  */
 export enum MessageTypes {
     GROUP = 'group',
-    MESSAGE = 'message',
+    POST = 'post',
 }

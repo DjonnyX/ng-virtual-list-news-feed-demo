@@ -7,7 +7,7 @@ import { StaticClickDirective } from '@shared/directives';
 import { LocaleSensitiveDirective } from '@shared/localization';
 import { ITheme, ThemeService } from '@shared/theming';
 import { Color } from '@shared/types';
-import { IMessageItemData } from '@shared/models/message';
+import { IPostItemData } from '@shared/models/message';
 import { NgVirtualListService } from 'ng-virtual-list';
 
 const DEFAULT_MAX_DISTANCE = 40,
@@ -41,7 +41,7 @@ export class GroupComponent {
 
   api = input<NgVirtualListService>();
 
-  data = input<IVirtualListItem<IMessageItemData> | null>();
+  data = input<IVirtualListItem<IPostItemData> | null>();
 
   config = input<IDisplayObjectConfig | null>();
 
@@ -74,9 +74,9 @@ export class GroupComponent {
 
     effect(() => {
       const theme = this.theme();
-      if (theme) {
-        const preset = this._themeService.getPreset(theme.chat.chats.group);
-        if (preset) {
+      if (!!theme) {
+        const preset = this._themeService.getPreset(theme.newsFeed.groups.group);
+        if (!!preset) {
           const selected = this.config()?.selected, hover = this.hover();
           if (selected && hover) {
             this.backgroundColor.set(preset.selectedFocused.fill);

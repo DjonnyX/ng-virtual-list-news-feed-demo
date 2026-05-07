@@ -51,9 +51,9 @@ export class MenuButtonComponent {
 
     effect(() => {
       const theme = this.theme(), pressed = this.pressed(), focused = this.focused(), contentElement = this.content()?.nativeElement;
-      if (theme && contentElement) {
-        const preset = this._themeService.getPreset(theme.chat.header.menuButton);
-        if (preset) {
+      if (!!theme && !!contentElement) {
+        const preset = this._themeService.getPreset(theme.newsFeed.header.menuButton);
+        if (!!preset) {
           if (focused) {
             this.fillColors.set(preset.focused.fill);
             contentElement.style.color = preset.focused.color;

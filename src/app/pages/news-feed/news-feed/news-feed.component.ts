@@ -3,21 +3,21 @@ import { Component, computed, CUSTOM_ELEMENTS_SCHEMA, effect, ElementRef, inject
 import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { BehaviorSubject, filter, map, tap, } from 'rxjs';
-import { MenuButtonComponent, MessageSearchComponent } from '@entities/header';
+import { MenuButtonComponent, SearchComponent } from '@entities/header';
 import { IRenderVirtualListItem, ISize, IVirtualListItem } from 'ng-virtual-list';
 import { DrawerComponent, DockMode } from "@shared/components";
 import { ClickOutsideService } from '@shared/directives';
-import { MessagesComponent } from "@widgets/messages/messages/messages.component";
+import { PostsComponent } from "@widgets/news-feed/posts/posts.component";
 import { GroupsComponent } from "@widgets/groups/groups/groups.component";
-import { MessageService } from '@widgets/messages';
+import { PostService } from '@widgets/news-feed';
 import { ITheme } from '@shared/theming';
 import { ThemeService } from '@shared/theming';
 import { generateChatCollection } from '@mock/const';
-import { IMessageItemData } from '@shared/models/message';
+import { IPostItemData } from '@shared/models/message';
 import { LocaleSensitiveDirective } from '@shared/localization';
-import { MessagesService } from '@widgets/messages/messages.service';
-import { MessagesMockService } from '@widgets/messages/messages-mock.service';
-import { MessagesHttpService } from '@widgets/messages/messages-http.service';
+import { PostsService } from '@widgets/news-feed/posts.service';
+import { PostsMockService } from '@widgets/news-feed/posts-mock.service';
+import { PostsHttpService } from '@widgets/news-feed/posts-http.service';
 import { environment } from '@environments/environment';
 import { IMediaParams, MediaService } from '@shared/directives/media';
 
@@ -45,21 +45,21 @@ const DEFAULT_MENU_SIZE = 320,
 @Component({
   selector: 'x-news-feed',
   standalone: true,
-  imports: [CommonModule, FormsModule, LocaleSensitiveDirective, MenuButtonComponent, MessageSearchComponent, DrawerComponent,
-    MessagesComponent, GroupsComponent],
+  imports: [CommonModule, FormsModule, LocaleSensitiveDirective, MenuButtonComponent, SearchComponent, DrawerComponent,
+    PostsComponent, GroupsComponent],
   templateUrl: './news-feed.component.html',
   styleUrl: './news-feed.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [ClickOutsideService,
-    { provide: MessagesService, useClass: environment.useMock ? MessagesMockService : MessagesHttpService },
+    { provide: PostsService, useClass: environment.useMock ? PostsMockService : PostsHttpService },
   ],
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class NewsFeed implements OnDestroy {
   protected _toolbar = viewChild<ElementRef<HTMLDivElement>>('toolbar');
 
-  @ViewChild('messages', { read: MessagesComponent })
-  protected _messages: MessagesComponent | undefined;
+  @ViewChild('posts', { read: PostsComponent })
+  protected _posts: PostsComponent | undefined;
 
   protected _header = viewChild<ElementRef<HTMLDivElement>>('header');
 
@@ -86,9 +86,9 @@ export class NewsFeed implements OnDestroy {
 
   title = signal<string | undefined>(undefined);
 
-  private _messagesService = inject(MessagesService);
+  private _postsService = inject(PostsService);
 
-  private _messageService = inject(MessageService);
+  private _postService = inject(PostService);
 
   private _mediaService = inject(MediaService);
 
@@ -145,8 +145,8 @@ export class NewsFeed implements OnDestroy {
     effect(() => {
       const theme = this.theme(), toolbar = this._toolbar()?.nativeElement;
       if (theme && toolbar) {
-        const preset = this._themeService.getPreset(theme.chat.header);
-        if (preset) {
+        const preset = this._themeService.getPreset(theme.newsFeed.header);
+        if (!!preset) {
           toolbar.style.background = preset.background;
         }
       }
@@ -155,8 +155,8 @@ export class NewsFeed implements OnDestroy {
     effect(() => {
       const theme = this.theme(), header = this._header()?.nativeElement;
       if (theme && header) {
-        const preset = this._themeService.getPreset(theme.chat.header);
-        if (preset) {
+        const preset = this._themeService.getPreset(theme.newsFeed.header);
+        if (!!preset) {
           header.style.color = preset.color;
           header.style.fontSize = preset.fontSize;
         }
@@ -177,7 +177,7 @@ export class NewsFeed implements OnDestroy {
     this.menuOpened.set(false);
   }
 
-  onClickHandler(item: IRenderVirtualListItem<IMessageItemData> | undefined) {
+  onClickHandler(item: IRenderVirtualListItem<IPostItemData> | undefined) {
     if (item) {
       console.info(`Click: (ID: ${item.data.id}) Item ${item.data.text}`);
     }
@@ -188,12 +188,12 @@ export class NewsFeed implements OnDestroy {
   }
 
   onGroupSelectHandler(item: IVirtualListItem) {
-    const chatId = `${item?.['id']}`;
-    if (chatId !== this._messageService.chatId) {
-      this._messages?.hide();
+    const groupId = `${item?.['id']}`;
+    if (groupId !== this._postService.groupId) {
+      this._posts?.hide();
       this.menuOpened.set(false);
       this.title.set(item?.['text']);
-      this._messageService.changeChat(chatId);
+      this._postService.changeChat(groupId);
     }
   }
 

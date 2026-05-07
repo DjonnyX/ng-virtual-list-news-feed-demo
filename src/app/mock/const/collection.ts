@@ -1,7 +1,7 @@
-import { IVirtualListCollection } from "ng-virtual-list";
+import { IVirtualListCollection } from 'ng-virtual-list';
 import { MessageTypes } from "@shared/enums";
-import { IMessage } from "@widgets/messages";
-import { generateText, generateWord } from "../utils";
+import { IPost } from "@widgets/news-feed";
+import { generateWord } from "../utils";
 
 /**
  * @author Evgenii Alexandrovich Grebennikov
@@ -34,24 +34,11 @@ export const COLLECTION_PARAMS = {
  * @email djonnyx@gmail.com
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
-
-export const testLinksText = () => {
+export const textWithImage = () => {
   return `
-  https://news-feed-demo.eugene-grebennikov.pro/assets/city-1.png
+  https://news-feed-demo-x12.eugene-grebennikov.pro/assets/img_%20${1 + Math.round( Math.random() * 25)}.jpg
   Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-ng-virtual-list.eugene-grebennikov.pro`;
-};
-
-export const testFormattedText = () => {
-  return `
-  https://news-feed-demo.eugene-grebennikov.pro/assets/city-2.png
-  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
-  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-  `;
-},
-testFormattedText1 = () => {
-  return `
-  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum
+  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 
   `;
 };
 
@@ -61,23 +48,20 @@ testFormattedText1 = () => {
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
 const generateMessageCollection = (number: number, size: number) => {
-  const items: IVirtualListCollection<IMessage> = [], chunkSize = size;
+  const items: IVirtualListCollection<IPost> = [], chunkSize = size;
 
   for (let i = 0, l = chunkSize; i < l; i++) {
-    const id = COLLECTION_PARAMS.index + 1,
-      incomType = Math.random() > .5 ? 'in' : 'out';
+    const id = COLLECTION_PARAMS.index + 1;
 
     COLLECTION_PARAMS.index++;
 
-    const type = MessageTypes.MESSAGE;
+    const type = MessageTypes.POST;
     items.push({
       id,
       version: 0,
-      mailed: true,
       type,
-      dateTime: COLLECTION_PARAMS.maxDate + COLLECTION_PARAMS.index * 2000000, text: `${id}. ${id % 4 === 0 ? testLinksText() : id % 3 === 0 ? testFormattedText() : testFormattedText1()}`,
+      dateTime: COLLECTION_PARAMS.maxDate + COLLECTION_PARAMS.index * 2000000, text: `${id}. ${textWithImage()}`,
       image: undefined,
-      incomType,
     });
   }
   return items;

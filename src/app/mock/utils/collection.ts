@@ -1,8 +1,7 @@
-import { IVirtualListItem } from "ng-virtual-list";
+import { IVirtualListItem } from 'ng-virtual-list';
 import { MessageTypes } from "@shared/enums";
-import { COLLECTION_PARAMS, testFormattedTable, testFormattedText, testLinksText } from "@mock/const/collection";
-import { IMessage } from "@widgets/messages";
-import { generateText } from "./text";
+import { COLLECTION_PARAMS, textWithImage } from "@mock/const/collection";
+import { IPost } from "@widgets/news-feed";
 
 let timeOffset = 0;
 
@@ -11,12 +10,10 @@ let timeOffset = 0;
  * @email djonnyx@gmail.com
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
-export const generateMessage = (): IVirtualListItem<IMessage> => {
+export const generateMessage = (): IVirtualListItem<IPost> => {
     timeOffset++;
     const version = 0, id = COLLECTION_PARAMS.index + 1,
-        type = MessageTypes.MESSAGE,
-        incomType = Math.random() > .5 ? 'in' : 'out',
-        hasImage = Boolean(Math.round(Math.random() * .75));
+        type = MessageTypes.MESSAGE;
     COLLECTION_PARAMS.index++;
 
     const dateTime = COLLECTION_PARAMS.maxDate + timeOffset * 2000000;
@@ -24,10 +21,7 @@ export const generateMessage = (): IVirtualListItem<IMessage> => {
         id,
         version,
         dateTime,
-        mailed: false,
         type,
-        text: `${id}. ${id % 4 === 0 ? testLinksText() : id % 3 === 0 ? testFormattedText() : id % 5 === 0 ? testFormattedTable() : generateText()}`,
-        image: hasImage ? 'https://ng-virtual-list-news-feed.eugene-grebennikov.pro/media/logo.png' : undefined,
-        incomType,
+        text: `${id}. ${textWithImage()}`,
     };
 }

@@ -19,11 +19,10 @@ export const SERVICE_WHITESPACE = '&__whitespace__;',
     WHITESPACE = ' ',
     EMPTY_STRING = '';
 
-const messageStatus = (time: string, mailed: boolean) => `&nbsp;<span${SERVICE_WHITESPACE}class="message-status"style="display:inline-flex;float:right;word-break:keep-all;">${time}&nbsp;<span${SERVICE_WHITESPACE}></span></span>`;
+const messageStatus = (time: string) => `&nbsp;<span${SERVICE_WHITESPACE}class="message-status"style="display:inline-flex;float:right;word-break:keep-all;">${time}&nbsp;<span${SERVICE_WHITESPACE}></span></span>`;
 
 interface IFormatTextOptions {
     selectable?: boolean;
-    mailed?: boolean;
     loading?: boolean;
 }
 
@@ -70,8 +69,7 @@ export const formatText = (str: string | undefined, time: string | undefined, op
     }
 
     const loading = options?.loading ?? false,
-        selectable = options?.selectable ?? false,
-        mailed = options?.mailed ?? false;
+        selectable = options?.selectable ?? false;
 
     let result = str;
     // splice comments
@@ -98,7 +96,7 @@ export const formatText = (str: string | undefined, time: string | undefined, op
     }
 
     // url
-    result = format(result, time, selectable, mailed, loading);
+    result = format(result, time, selectable, loading);
     // whitespace
     result = result.replaceAll(WHITESPACE, NBSP);
     // line break
@@ -143,7 +141,7 @@ const checkImage = (url: string) => {
  * @email djonnyx@gmail.com
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
-const format = (src: string, time: string | undefined, selectable: boolean, mailed: boolean, loading: boolean) => {
+const format = (src: string, time: string | undefined, selectable: boolean, loading: boolean) => {
     let result = src;
     const urls = getTextUrls(src);
     if (urls) {
@@ -198,7 +196,7 @@ const format = (src: string, time: string | undefined, selectable: boolean, mail
         }
     }
     if (time) {
-        result = result + messageStatus(time, mailed);
+        result = result + messageStatus(time);
     }
     return result.trim();
 };

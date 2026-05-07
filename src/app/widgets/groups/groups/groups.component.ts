@@ -73,9 +73,9 @@ export class GroupsComponent {
 
     this.scrollbarTheme = computed(() => {
       const theme = this.theme();
-      if (theme) {
+      if (!!theme) {
         const preset = this._themeService.getPreset(SCROLLBAR_PRESET);
-        if (preset) {
+        if (!!preset) {
           return preset;
         }
       }
@@ -98,9 +98,9 @@ export class GroupsComponent {
 
     effect(() => {
       const theme = this.theme();
-      if (theme) {
-        const preset = this._themeService.getPreset(theme.chat.chats.group);
-        if (preset) {
+      if (!!theme) {
+        const preset = this._themeService.getPreset(theme.newsFeed.groups.group);
+        if (!!preset) {
           const host = this._elementRef?.nativeElement;
           if (host) {
             host.style.backgroundColor = preset.background;

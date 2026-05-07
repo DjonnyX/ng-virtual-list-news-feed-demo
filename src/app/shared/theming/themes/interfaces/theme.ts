@@ -1,4 +1,4 @@
-import { IChatTheme } from "./chat/chat-theme";
+import { INewsFeedTheme } from "./news-feed/neews-feed-theme";
 import { PresetThemes } from "../types/presets-themes";
 
 /**
@@ -7,6 +7,6 @@ import { PresetThemes } from "../types/presets-themes";
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
 export interface ITheme {
-    chat: IChatTheme;
+    newsFeed: INewsFeedTheme;
     presets: PresetThemes;
 }

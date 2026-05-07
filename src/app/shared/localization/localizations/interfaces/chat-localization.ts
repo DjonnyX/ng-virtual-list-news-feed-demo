@@ -1,5 +1,5 @@
 import { IChatHeaderLocalization } from "./chat-header-localization";
-import { IMessagesLocalization } from "./chat-messages-localization";
+import { IPostsLocalization } from "./chat-messages-localization";
 
 /**
  * @author Evgenii Alexandrovich Grebennikov
@@ -8,5 +8,5 @@ import { IMessagesLocalization } from "./chat-messages-localization";
  */
 export interface IChatLocalization {
     header: IChatHeaderLocalization;
-    messages: IMessagesLocalization;
+    messages: IPostsLocalization;
 }

@@ -5,7 +5,7 @@ import { IChatMessagesMessageLocalizataion } from "./chat-messages-message-local
  * @email djonnyx@gmail.com
  * @license Copyright (c) 2026 Evgenii Alexandrovich Grebennikov (djonnyx@gmail.com tg: http://t.me/djonnyx).
  */
-export interface IMessagesLocalization {
+export interface IPostsLocalization {
     unmailedSeparator: string;
     message: IChatMessagesMessageLocalizataion;
 }

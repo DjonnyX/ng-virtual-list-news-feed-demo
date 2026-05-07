@@ -1,5 +1,5 @@
-import { IMessageItemData } from "./message-item.model";
+import { IPostItemData } from "./post-item.model";
 
 export type {
-    IMessageItemData,
+    IPostItemData,
 }

@@ -10,7 +10,7 @@
                 }
             </div>
             <div #header class="title">{{groupTitle}}</div>
-            <x-message-search (search)="onSearchHandler($event)" />
+            <x-search (search)="onSearchHandler($event)" />
         </div>
 
         <div class="list-container">
@@ -20,7 +20,7 @@
                     <x-groups [scrollStartOffset]="toolbarBounds().height" (select)="onGroupSelectHandler($event)" (close)="onGroupsCloseHandler()" />
                 </dock-left>
                 <div class="viewer-container">
-                    <x-messages #messages [search]="searchText" [scrollStartOffset]="toolbarBounds().height" />
+                    <x-posts #posts [search]="searchText" [scrollStartOffset]="toolbarBounds().height" />
                 </div>
             </x-drawer>
         </div>
