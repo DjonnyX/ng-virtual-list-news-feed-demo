@@ -111,6 +111,7 @@
     }
 
     ::ng-deep .message-editor-image {
+        pointer-events: none;
         -webkit-user-drag: none;
         -moz-user-drag: none;
     }
