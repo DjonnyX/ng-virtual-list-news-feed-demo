@@ -1,7 +1,7 @@
 import { Component, computed, DestroyRef, effect, ElementRef, inject, input, OnDestroy, output, Signal, signal, viewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, filter, fromEvent, map, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, filter, of, switchMap, tap } from 'rxjs';
 import { SearchHighlightDirective } from '@shared/directives';
 import { formatText } from '@shared/utils';
 import { ThemeService } from '@shared/theming';
