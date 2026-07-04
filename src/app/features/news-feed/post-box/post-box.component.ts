@@ -135,16 +135,17 @@ export class PostBoxComponent implements AfterViewInit, OnDestroy {
     });
 
     this.classes = computed(() => {
-      const params = this.params(), { reseted } = params, initialized = this.initialized();
+      const params = this.params(), { reseted } = params, initialized = this.initialized(), config = this.config() as any,
+        grabbing = config.grabbing;
       if (reseted) {
-        return { [CLASS_RESETED]: !initialized || reseted, } as any;
+        return { [CLASS_RESETED]: !initialized || reseted, grabbing, } as any;
       }
 
-      const data = this.data(), config = this.config() as any,
+      const data = this.data(),
         firstInGroup = params.prevType === MessageTypes.GROUP && params.type !== MessageTypes.GROUP,
         lastInGroup = params.nextType === MessageTypes.GROUP && params.type !== MessageTypes.GROUP;
       return {
-        [CLASS_SIMPLE]: true,
+        [CLASS_SIMPLE]: true, grabbing,
         [CLASS_ANIMATE]: data?.[DATA_PROP_ANIMATE] == true,
         [CLASS_FIRST_IN_GROUP]: firstInGroup, [CLASS_LAST_IN_GROUP]: lastInGroup, [CONFIG_PROP_PREPARED]: config.prepared,
         [CLASS_RTL]: this._localizationService.textDirection === TextDirections.RTL, [CLASS_SELECTED]: config?.[CONFIG_PROP_SELECTED],
